@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="properties">
+
+	<property name="version"         value="1.0.2"                         />
+
+	<property name="buildDir"        location="bin"                       />
+	<property name="packageName"     value="ua-core.jar" />
+	<property name="libDir"          location="Lib"                       />
+	<property name="releaseDir"      location="Release"                   />
+	<property name="sourceDir"       location="Source/Main/Java"          />
+
+	<property name="deployWebAppDir"    location="../Code Crank - 03.00 - Play\lib" />
+	<property name="deployCrankCoreDir" location="../Code Crank - 03.00 - Core\Lib" />
+	
+</project>

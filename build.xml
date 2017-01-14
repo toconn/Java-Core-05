@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="shared" default="packageDone">
+	
+	<import file="build.properties.xml" />
+	
+	<path id="sourcePath">
+		<pathelement path="${sourceDir}"                 />
+	</path>
+	
+    <path id="classPath">
+        <fileset dir="${libDir}" includes="**/*.jar"/>
+    </path>
+	
+	<target name="setup">
+		<delete file="${releaseDir}/${packageName}" />
+		<delete dir="${buildDir}" />
+		<mkdir dir="${buildDir}" />
+	</target>
+	
+  	<target name="compile" depends="setup">
+  		<javac includeantruntime="false" destdir="${buildDir}" debug="on">
+  			<src       refid="sourcePath" />
+  			<classpath refid="classPath"  />
+  		</javac>
+	</target>
+	
+	<target name="package" depends="compile">
+		<jar destfile="${releaseDir}/${packageName}" >
+			<fileset dir="${buildDir}"  />
+			<!-- <fileset dir="${sourceDir}" includes="**/*.java" /> -->
+		</jar>
+	</target>
+	
+	<target name="packageDone" depends="package" >
+		<echo message="Built ${packageName}." />
+	</target>
+	
+</project>
