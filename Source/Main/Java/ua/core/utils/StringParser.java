@@ -115,15 +115,15 @@ public class StringParser {
 					
 					for (NameValuePair escapeNVPair: this.escapeNameValues) {
 						
-						if (StringUtils.isStartsWith (text.substring (segmentIndexCurrent + 1), escapeNVPair.name)) {
+						if (StringUtils.isStartsWith (text.substring (segmentIndexCurrent + 1), escapeNVPair.getName())) {
 							
 							// Match found...
 							
 							// Add unescaped string...
-							segmentStringBuilder.append (escapeNVPair.value);
+							segmentStringBuilder.append (escapeNVPair.getValue());
 							
 							// Skip to the next character...
-							segmentIndexCurrent = segmentIndexCurrent + escapeNVPair.name.length() + 1;
+							segmentIndexCurrent = segmentIndexCurrent + escapeNVPair.getName().length() + 1;
 							
 							isEscapeSequence = true;
 							

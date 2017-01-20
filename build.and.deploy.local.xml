@@ -4,8 +4,8 @@
 	<import file="build.xml" />
 		
 	<target name="deploy" depends="package" >
-		<copy file="${releaseDir}/${packageName}" tofile="${deployWebAppDir}/${packageName}"/>
-		<copy file="${releaseDir}/${packageName}" tofile="${deployCrankCoreDir}/${packageName}"/>
+		<copy file="${releaseDir}/${packageName}" tofile="${deployCrankWebAppDir}/${packageName}"/>
+		<copy file="${releaseDir}/${packageName}" tofile="${deployCrankEngineDir}/${packageName}"/>
 		
 		<tstamp>
 			<format property="current.time" pattern="yyyy-MM-dd hh:mm:ss aa" />

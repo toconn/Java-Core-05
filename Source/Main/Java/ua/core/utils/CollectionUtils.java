@@ -34,6 +34,56 @@ public class CollectionUtils {
 		return list;
 	}
 	
+	/**
+	 * Adds all elements from addFromitems to list.
+	 * Null safe. If the collection doesn't exist, it will be created.
+	 * 
+	 * @param list
+	 * @return
+	 */
+	public static <T> List<T> addAll (List<T> list, T[] addFromItems) {
+		
+		if (list == null) {
+			list = new ArrayList<>();
+		}
+		
+		if (addFromItems != null) {		
+			for (T item : addFromItems) {
+				list.add (item);
+			}
+		}
+		
+		return list;
+	}
+	
+	/**
+	 * Adds all elements from addFromList to list.
+	 * Null safe. If the collection doesn't exist, it will be created.
+	 * 
+	 * @param list
+	 * @return
+	 */
+	public static <T> List<T> addAll (List<T> list, Collection<T> addFromList) {
+		
+		if (list == null) {
+			list = new ArrayList<>();
+		}
+		
+		if (addFromList != null) {		
+			for (T item : addFromList) {
+				list.add (item);
+			}
+		}
+		
+		return list;
+	}
+	
+	/**
+	 * Adds all elements from items list to collections list.
+	 * 
+	 * @param collection
+	 * @return
+	 */
 	public static <T> Collection<T> addAll (Collection<T> collection, T[] items) {
 		
 		if (items != null) {		
@@ -45,6 +95,12 @@ public class CollectionUtils {
 		return collection;
 	}
 	
+	/**
+	 * Adds all elements from items to collection.
+	 * 
+	 * @param collection
+	 * @return
+	 */
 	public static <T> Collection<T> addAll (Collection<T> collection, Collection<T> items) {
 		
 		if (items != null) {		

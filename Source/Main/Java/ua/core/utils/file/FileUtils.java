@@ -231,7 +231,7 @@ public class FileUtils {
 				fileURL = dummyClass.getClass().getClassLoader().getResource (fileName);
 
 				if (fileURL != null) {
-					filePath = URLDecoder.decode (fileURL.getPath(), IFileConst.FILE_ENCODING_UTF8);
+					filePath = URLDecoder.decode (fileURL.getPath(), FileConst.FILE_ENCODING_UTF8);
 				}
 
 				if (filePath != null) {
@@ -277,7 +277,7 @@ public class FileUtils {
 				fileURL = dummyClass.getClass().getClassLoader().getResource (fileName);
 
 				if (fileURL != null) {
-					filePath = URLDecoder.decode (fileURL.getPath(), IFileConst.FILE_ENCODING_UTF8);
+					filePath = URLDecoder.decode (fileURL.getPath(), FileConst.FILE_ENCODING_UTF8);
 				}
 			}
 			catch (Exception e) {
@@ -332,7 +332,7 @@ public class FileUtils {
 
 		if (fileName != null) {
 			
-			extensionSepIndex = fileName.lastIndexOf (IFileConst.FILE_EXTENSION_SEPARATOR);
+			extensionSepIndex = fileName.lastIndexOf (FileConst.FILE_EXTENSION_SEPARATOR);
 			
 			if (extensionSepIndex != -1 && extensionSepIndex < fileName.length() - 1) {
 				
@@ -341,6 +341,59 @@ public class FileUtils {
 		}
 
 		return fileExtension;
+	}
+	
+	/**
+	 * Returns the base name of a file name.
+	 * File name = 'path/baseName.ext'. Returns 'baseName'.
+	 * 
+	 * @param fileName
+	 * @return
+	 */
+	public static String getBaseName (File file) {
+		return getBaseName (file.getAbsolutePath());
+	}
+	
+	/**
+	 * Returns the base name of a file name.
+	 * File name = 'path/baseName.ext'. Returns 'baseName'.
+	 * 
+	 * @param filePath
+	 * @return
+	 */
+	public static String getBaseName (String filePath) {
+		
+		//////////////////////////////////////////////////////////////////
+		// Declarations
+		//////////////////////////////////////////////////////////////////
+
+		int		extensionSepIndex	= 0;
+		String	baseName			= null;
+
+
+		//////////////////////////////////////////////////////////////////
+		// Code
+		//////////////////////////////////////////////////////////////////
+
+		if (filePath != null) {
+			
+			// Strip out path:
+			
+			filePath = getFileName (filePath);
+			
+			// Strip extension:
+			
+			extensionSepIndex = filePath.lastIndexOf (FileConst.FILE_EXTENSION_SEPARATOR);
+			
+			if (extensionSepIndex > 0) {
+				baseName = filePath.substring (0, extensionSepIndex);
+			}
+			else {
+				baseName = filePath;
+			}
+		}
+
+		return baseName;
 	}
 
 
@@ -382,6 +435,39 @@ public class FileUtils {
             return null;
 
         }
+	}
+	
+	/**
+	 * Returns the file name of a file.
+	 * File name = 'path/baseName.ext'. Returns 'baseName.ext'.
+	 */
+	public static String getFileName (String filePath) {
+
+		//////////////////////////////////////////////////////////////////
+		// Declarations
+		//////////////////////////////////////////////////////////////////
+
+		int		separatorIndex	= 0;
+		String	fileName		= null;
+
+
+		//////////////////////////////////////////////////////////////////
+		// Code
+		//////////////////////////////////////////////////////////////////
+
+		if (filePath != null) {
+			
+			separatorIndex = filePath.lastIndexOf (File.separator);
+			
+			if (separatorIndex > 0) {
+				fileName = filePath.substring (separatorIndex + 1);
+			}
+			else {
+				fileName = filePath;
+			}
+		}
+
+		return fileName;
 	}
 	
 	
@@ -493,41 +579,6 @@ public class FileUtils {
 		
 		return file.getName();
 	}
-	
-	
-	/**
-	 * Returns the name subpart of a file name.
-	 * File name = subname.ext. Returns subname.
-	 * 
-	 * @param fileName
-	 * @return
-	 */
-	public static String getSubname (String fileName) {
-		
-		//////////////////////////////////////////////////////////////////
-		// Declarations
-		//////////////////////////////////////////////////////////////////
-
-		int		extensionSepIndex	= 0;
-		String	subname				= null;
-
-
-		//////////////////////////////////////////////////////////////////
-		// Code
-		//////////////////////////////////////////////////////////////////
-
-		if (fileName != null) {
-			
-			extensionSepIndex = fileName.lastIndexOf (IFileConst.FILE_EXTENSION_SEPARATOR);
-			
-			if (extensionSepIndex > 0) {
-				
-				subname = fileName.substring (0, extensionSepIndex);
-			}
-		}
-
-		return subname;
-	}
 
 
 	/**
@@ -566,7 +617,6 @@ public class FileUtils {
 		return false;
 	}
 
-
 	/**
 	 * Checks to see if a file exists.
 	 * 
@@ -585,12 +635,25 @@ public class FileUtils {
 		Files.move (Paths.get (sourcePath), Paths.get(targetPath));
 	}
 	
+	public static String readToText (File file) throws FileNotFoundException {
+
+		if (file.length() > 0) {
+			return readToText (file.getAbsolutePath());
+		}
+		else {
+			return "";
+		}
+	}
+	
 	public static String readToText (String filePath) throws FileNotFoundException {
 		
-		String text;
+		String text = "";
 		
 		try (Scanner scanner = new Scanner (new File (filePath))) {
 			text = scanner.useDelimiter ("\\Z").next();
+		}
+		catch (NullPointerException e) {
+			// Empty file (most likely)
 		}
 		
 		return text;

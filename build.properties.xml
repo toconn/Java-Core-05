@@ -9,7 +9,7 @@
 	<property name="releaseDir"      location="Release"                   />
 	<property name="sourceDir"       location="Source/Main/Java"          />
 
-	<property name="deployWebAppDir"    location="../Code Crank - 03.00 - Play\lib" />
-	<property name="deployCrankCoreDir" location="../Code Crank - 03.00 - Core\Lib" />
+	<property name="deployCrankWebAppDir" location="../Code Crank - 03.00 - Web App\lib" />
+	<property name="deployCrankEngineDir" location="../Code Crank - 03.00 - Engine\Lib" />
 	
 </project>

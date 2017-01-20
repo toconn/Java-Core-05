@@ -14,8 +14,8 @@ package ua.core.entities;
  */
 public class NameObjectPair<T> {
 	
-	public String	name	= null;
-	public T		value	= null;
+	private final String	name;
+	private final T			value;
 
 
 	/**
