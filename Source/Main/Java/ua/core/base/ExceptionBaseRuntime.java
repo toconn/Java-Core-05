@@ -3,6 +3,7 @@ package ua.core.base;
 import java.util.ArrayList;
 import java.util.List;
 
+import ua.core.utils.CollectionUtils;
 import ua.core.utils.MessageUtils;
 
 
@@ -11,7 +12,7 @@ public abstract class ExceptionBaseRuntime extends RuntimeException {
 
 	private static final long	serialVersionUID = -3138741202946024745L;
 
-	private List <String>		messageList = new ArrayList <String>();
+	private List<String> messages = new ArrayList<>();
 
 	
 	public ExceptionBaseRuntime() {
@@ -22,13 +23,29 @@ public abstract class ExceptionBaseRuntime extends RuntimeException {
 	public ExceptionBaseRuntime (Exception e) {
 		
 		super (e);
-		messageList.add (e.getMessage());
+		messages.add (e.getMessage());
+	}
+
+	public ExceptionBaseRuntime (Exception e, String message) {
+		super(e);
+		messages.add (message);
+	}
+
+	public ExceptionBaseRuntime (Exception e, List<String> messages) {
+		
+		super(e);
+
+		if (CollectionUtils.isNotEmpty (messages)) {
+			messages.add (messages.get (0));
+		}
+		
+		this.messages = messages;
 	}
 
 	public ExceptionBaseRuntime (String message) {
 
 		super();
-		messageList.add (message);
+		messages.add (message);
 	}
 
 	public ExceptionBaseRuntime (String message, Object... messageParamArray) {
@@ -40,37 +57,37 @@ public abstract class ExceptionBaseRuntime extends RuntimeException {
 	public ExceptionBaseRuntime (List <String> messageList) {
 
 		super();
-		this.messageList = messageList;
+		this.messages = messageList;
 	}
 
 	
 	public void addFirstMessage (String message) {
 
-		messageList.add (0, message);
+		messages.add (0, message);
 	}
 	
 	public void addFirstMessage (String message, Object... messageParamArray) {
 		
-		messageList.add (0, MessageUtils.toString(message, messageParamArray));
+		messages.add (0, MessageUtils.toString(message, messageParamArray));
 	}
 
 	public void addMessage (String message) {
 
-		messageList.add (message);
+		messages.add (message);
 	}
 
 	public void addMessage (String message, Object... messageParamArray) {
 		
-		messageList.add (MessageUtils.toString(message, messageParamArray));
+		messages.add (MessageUtils.toString(message, messageParamArray));
 	}
 
 	public void addMessageList (List <String> messageList) {
 
-		this.messageList.addAll (messageList);
+		this.messages.addAll (messageList);
 	}
 
 	public List <String> getMessageList() {
 
-		return messageList;
+		return messages;
 	}
 }

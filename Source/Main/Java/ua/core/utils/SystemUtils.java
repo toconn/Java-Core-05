@@ -1,6 +1,7 @@
 package ua.core.utils;
 
 import java.io.File;
+import java.util.List;
 
 public class SystemUtils {
 	
@@ -51,6 +52,16 @@ public class SystemUtils {
 
 	public static boolean isOSWindows() {
 		return StringUtils.isStartsWith (getOSName(), WINDOWS_OS_NAME);
+	}
+	
+	public static void printSystemProps () {
+		
+		List <String> sortedKeyList;
+		sortedKeyList = CollectionUtils.sort (System.getProperties().stringPropertyNames());
+		
+		for (String key: sortedKeyList) {
+			System.out.println (StringUtils.pad (key, 24) + ": " + System.getProperty (key));
+		}
 	}
 
 	public static void sleep (long milliseconds) {

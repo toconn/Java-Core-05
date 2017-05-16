@@ -10,9 +10,13 @@ public interface Settings {
 	public Set <String> getKeys();
 	
 	public boolean getBoolean (String name) throws ExceptionInvalidValue;
+	public boolean getBoolean (String name, boolean defaultValue);
 	public int getInt (String name) throws ExceptionInvalidValue;
+	public int getInt (String name, int defaultValue);
 	public long getLong (String name) throws ExceptionInvalidValue;
+	public long getLong (String name, long defaultValue);
 	public String getString (String name);
+	public String getString (String name, String defaultValue);
 	public List <String> getStrings (String name);
 	
 	public boolean hasBoolean (String name);

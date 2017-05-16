@@ -20,6 +20,10 @@ import java.util.List;
  */
 public interface FileLocator {
 	
+	List<String> getConfigSearchDirs();
+	List<String> getDocSearchDirs();
+	String getOSConfigDir();
+	
 	String locateConfigFileDir();
 	List<String> locateConfigFileDirs();
 	String locateConfigDir();

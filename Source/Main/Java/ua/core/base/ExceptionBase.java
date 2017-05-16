@@ -3,6 +3,7 @@ package ua.core.base;
 import java.util.ArrayList;
 import java.util.List;
 
+import ua.core.utils.CollectionUtils;
 import ua.core.utils.MessageUtils;
 import ua.core.utils.StringCollectionUtils;
 
@@ -11,10 +12,11 @@ import ua.core.utils.StringCollectionUtils;
 public abstract class ExceptionBase extends Exception {
 
 	
-	private static final long	serialVersionUID = -3138741202946024745L;
+	private static final long	serialVersionUID = -1;
 
-	private List <String>		messageList = new ArrayList <String>();
-
+	private List<String> messages = new ArrayList<>();
+	private String separator = " ";
+	
 	
 	public ExceptionBase() {
 		super();
@@ -22,12 +24,28 @@ public abstract class ExceptionBase extends Exception {
 
 	public ExceptionBase (Exception e) {
 		super(e);
-		messageList.add (e.getMessage());
+		messages.add (e.getMessage());
+	}
+
+	public ExceptionBase (Exception e, String message) {
+		super(e);
+		messages.add (message);
+	}
+
+	public ExceptionBase (Exception e, List<String> messages) {
+		
+		super(e);
+
+		if (CollectionUtils.isNotEmpty (messages)) {
+			messages.add (messages.get (0));
+		}
+		
+		this.messages = messages;
 	}
 
 	public ExceptionBase (String message) {
 		super();
-		messageList.add (message);
+		messages.add (message);
 	}
 
 	public ExceptionBase (String message, Object... messageParamArray) {
@@ -37,34 +55,38 @@ public abstract class ExceptionBase extends Exception {
 
 	public ExceptionBase (List <String> messageList) {
 		super();
-		this.messageList = messageList;
+		this.messages = messageList;
 	}
 	
 	public void addFirstMessage (String message) {
-		messageList.add (0, message);
+		messages.add (0, message);
 	}
 	
 	public void addFirstMessage (String message, Object... messageParamArray) {
-		messageList.add (0, MessageUtils.toString (message, messageParamArray));
+		messages.add (0, MessageUtils.toString (message, messageParamArray));
 	}
 
 	public void addMessage (String message) {
-		messageList.add (message);
+		messages.add (message);
 	}
 
 	public void addMessage (String message, Object... messageParamArray) {
-		messageList.add (MessageUtils.toString (message, messageParamArray));
+		messages.add (MessageUtils.toString (message, messageParamArray));
 	}
 
-	public void addMessageList (List <String> messageList) {
-		this.messageList.addAll (messageList);
+	public void addMessages (List <String> messageList) {
+		this.messages.addAll (messageList);
 	}
 
-	public List <String> getMessageList() {
-		return messageList;
+	public List <String> getMessages() {
+		return messages;
 	}
 	
 	public String getMessage() {
-		return StringCollectionUtils.join (messageList, " ");
+		return StringCollectionUtils.join (messages, separator);
+	}
+	
+	public void setMessageSeparator (String separator) {
+		this.separator = separator;
 	}
 }

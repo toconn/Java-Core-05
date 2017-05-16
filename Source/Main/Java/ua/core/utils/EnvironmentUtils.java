@@ -156,4 +156,14 @@ public class EnvironmentUtils {
 	public static boolean isNotExists (String envName) {
 		return StringUtils.isNotEmpty (envName) && StringUtils.isEmpty (getValue (envName));
 	}
+	
+	public static void printEnvValues() {
+
+		List <String> sortedKeyList;
+		sortedKeyList = CollectionUtils.sort (System.getenv().keySet ());
+		
+		for (String key: sortedKeyList) {
+			System.out.println (StringUtils.pad (key, 24) + ": " + System.getProperty (key));
+		}
+	}
 }

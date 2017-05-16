@@ -12,10 +12,26 @@ public abstract class SettingsBase implements Settings {
 		
 		booleanType = BooleanType.getInstance (getString (name));
 		if (booleanType == null) {
-			throw new ExceptionInvalidValue();
+			throw new ExceptionInvalidValue("Invalid property value: '" + name + "'.");
 		}
 		
 		return booleanType.getValue();
+	}
+	
+	@Override 
+	public boolean getBoolean (String name, boolean defaultValue) {
+		
+		if (hasBoolean (name)) {
+			try {
+				return getBoolean (name);
+			}
+			catch (ExceptionInvalidValue e) {
+				return defaultValue;
+			}
+		}
+		else {
+			return defaultValue;
+		}
 	}
 	
 	@Override
@@ -26,6 +42,22 @@ public abstract class SettingsBase implements Settings {
 		}
 		catch (Exception e) {
 			throw new ExceptionInvalidValue();
+		}
+	}
+	
+	@Override 
+	public int getInt (String name, int defaultValue) {
+		
+		if (hasBoolean (name)) {
+			try {
+				return getInt (name);
+			}
+			catch (ExceptionInvalidValue e) {
+				return defaultValue;
+			}
+		}
+		else {
+			return defaultValue;
 		}
 	}
 
@@ -39,18 +71,45 @@ public abstract class SettingsBase implements Settings {
 			throw new ExceptionInvalidValue();
 		}
 	}
+	
+	@Override 
+	public long getLong (String name, long defaultValue) {
+		
+		if (hasBoolean (name)) {
+			try {
+				return getLong (name);
+			}
+			catch (ExceptionInvalidValue e) {
+				return defaultValue;
+			}
+		}
+		else {
+			return defaultValue;
+		}
+	}
 
 	@Override
 	public String getString (String name) {
 
 		return getItem (name);
 	}
+	
+	@Override 
+	public String getString (String name, String defaultValue) {
+		
+		if (hasProperty (name)) {
+			return getString (name);
+		}
+		else {
+			return defaultValue;
+		}
+	}
 
 	@Override
 	public boolean hasBoolean (String name) {
 
 		try {
-			getInt (name);
+			getBoolean (name);
 			return true;
 		}
 		catch (Exception e) {

@@ -19,11 +19,6 @@ public class ExceptionInvalidRequest extends ExceptionBase {
 		super (message);
 	}
 	
-	public ExceptionInvalidRequest (String message, Object... messageParamArray) {
-
-		super (message, messageParamArray);
-	}
-	
 	public ExceptionInvalidRequest (List <String> messageList) {
 
 		super(messageList);

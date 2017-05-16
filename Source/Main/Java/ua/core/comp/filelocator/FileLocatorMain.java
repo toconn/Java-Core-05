@@ -90,6 +90,80 @@ public class FileLocatorMain implements FileLocator {
 	}
 
 
+	
+	/**
+	 * Gets the list of all possibles config directories as configured in the environment variables, etc.
+	 * 
+	 * Does not verify that the directories exist!
+	 * @return
+	 */
+	@Override
+	public List<String> getConfigSearchDirs() {
+		
+		String			path;
+		List<String>	paths;
+		List<String>	searchDirs = new ArrayList<>();
+	
+		
+		// Add App Path from environment variables (if found):
+		path = getAppConfigPathFromEnv();
+		if (path != null) {
+			searchDirs.add (path);
+		}
+		
+		// Add path for User Config Dirs environment variables:
+		paths = getUserConfigPathsFromEnv();
+		if (CollectionUtils.isNotEmpty (paths)) {
+			addAndAppendAppSubdirectory (searchDirs, paths);
+		}
+
+		// Add OS standard path:
+		searchDirs.add (getOSConfigDir());
+		
+		// Add path for Shared Config Dirs environment variables:
+		paths = getSharedConfigPathsFromEnv();
+		if (CollectionUtils.isNotEmpty (paths)) {
+			addAndAppendAppSubdirectory (searchDirs, paths);
+		}
+				
+		return searchDirs;
+	}
+	
+	/**
+	 * Gets the list of all possibles doc directories as configured in the environment variables, etc.
+	 * 
+	 * Does not verify that the directories exist!
+	 * @return
+	 */
+	@Override
+	public List<String> getDocSearchDirs() {
+		
+		List<String>	paths;
+		List<String>	searchDirs = new ArrayList<>();
+		
+		// Add path for User Doc Dirs environment variables:
+		paths = getUserDocPathsFromEnv();
+		if (CollectionUtils.isNotEmpty (paths)) {
+			searchDirs.addAll (paths);
+		}
+		
+		// Add OS standard path:
+		searchDirs.add (os.getUserDocDir (this.appSubdirName));
+
+		// Add path for User Doc Dirs environment variables:
+		paths = getSharedDocPathsFromEnv();
+		if (CollectionUtils.isNotEmpty (paths)) {
+			searchDirs.addAll (paths);
+		}
+		
+		return searchDirs;
+	}
+	
+	@Override
+	public String getOSConfigDir() {
+		return os.getUserAppDir (this.appSubdirName);
+	}
+
 	@Override
 	public String locateConfigFileDir () {
 
@@ -178,72 +252,6 @@ public class FileLocatorMain implements FileLocator {
 		}
 		
 		return path;
-	}
-	
-	/**
-	 * Gets the list of all possibles config directories as configured in the environment variables, etc.
-	 * 
-	 * Does not verify that the directories exist!
-	 * @return
-	 */
-	private List<String> getConfigSearchDirs() {
-		
-		String			path;
-		List<String>	paths;
-		List<String>	searchDirs = new ArrayList<>();
-	
-		
-		// Add App Path from environment variables (if found):
-		path = getAppConfigPathFromEnv();
-		if (path != null) {
-			searchDirs.add (path);
-		}
-		
-		// Add path for User Config Dirs environment variables:
-		paths = getUserConfigPathsFromEnv();
-		if (CollectionUtils.isNotEmpty (paths)) {
-			addAndAppendAppSubdirectory (searchDirs, paths);
-		}
-
-		// Add OS standard path:
-		searchDirs.add (os.getUserAppDir (this.appConfigFileName));
-		
-		// Add path for Shared Config Dirs environment variables:
-		paths = getSharedConfigPathsFromEnv();
-		if (CollectionUtils.isNotEmpty (paths)) {
-			addAndAppendAppSubdirectory (searchDirs, paths);
-		}
-				
-		return searchDirs;
-	}
-	
-	/**
-	 * Gets the list of all possibles doc directories as configured in the environment variables, etc.
-	 * 
-	 * Does not verify that the directories exist!
-	 * @return
-	 */
-	private List<String> getDocSearchDirs() {
-		
-		List<String>	paths;
-		List<String>	searchDirs = new ArrayList<>();
-		
-		// Add path for User Doc Dirs environment variables:
-		paths = getUserDocPathsFromEnv();
-		if (CollectionUtils.isNotEmpty (paths)) {
-			searchDirs.addAll (paths);
-		}
-		
-		// Add OS standard path:
-		searchDirs.add (os.getUserDocDir (this.appSubdirName));
-
-		// Add path for User Doc Dirs environment variables:
-		paths = getSharedDocPathsFromEnv();
-		if (CollectionUtils.isNotEmpty (paths)) {
-			searchDirs.addAll (paths);
-		}
-		
-		return searchDirs;
 	}
 	
 	/**

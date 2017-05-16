@@ -63,7 +63,7 @@ public class HttpUtils {
 		}
 		catch (IOException e) {
 	
-			throw new ExceptionRemote ("Unable to make http request.", e);
+			throw new ExceptionRemote (e, "Unable to make http request.");
 		}
 		catch (Exception e) {
 			
@@ -112,7 +112,7 @@ public class HttpUtils {
 		}
 		catch (IOException e) {
 			
-			throw new ExceptionRemote ("Unable to make http request.", e);
+			throw new ExceptionRemote (e, "Unable to make http request.");
 		}
 		catch (Exception e) {
 			
@@ -141,7 +141,7 @@ public class HttpUtils {
 		}
 		catch (IOException e) {
 			
-			throw new ExceptionRemote ("Unable to setup http request.", e);
+			throw new ExceptionRemote (e, "Unable to setup http request.");
 		}
 	}
 	

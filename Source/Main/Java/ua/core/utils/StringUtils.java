@@ -790,19 +790,11 @@ public class StringUtils {
 	}
 	
 	
-	/**
-	 * 
-	 * 
-	 * Creation date: (2002/10/31 10:37:10 PM)
-	 * 
-	 * @param: <|>
-	 * @return:
-	 * 
-	 * @return java.lang.String
-	 * @param text java.lang.String
-	 * @param fillChar char
-	 * @param totalLength int
-	 */
+	public static String pad (String text, int totalLength) {
+		
+		return pad (text, ' ', totalLength);
+	}
+
 	public static String pad (String text, char fillChar, int totalLength) {
 		
 		if (text != null) {
@@ -816,19 +808,6 @@ public class StringUtils {
 	}
 	
 	
-	/**
-	 * 
-	 * 
-	 * Creation date: (2002/10/31 10:36:30 PM)
-	 * 
-	 * @param: <|>
-	 * @return:
-	 * 
-	 * @return java.lang.String
-	 * @param text java.lang.String
-	 * @param fillText java.lang.String
-	 * @param totalLength int
-	 */
 	public static String pad (String text, String fillText, int totalLength) {
 	
 		if (text != null) {
