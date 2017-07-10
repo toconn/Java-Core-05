@@ -19,6 +19,7 @@ import ua.core.base.ExceptionRuntime;
 import ua.core.comp.os.OSConst;
 import ua.core.entities.NameValuePair;
 import ua.core.utils.CollectionUtils;
+import ua.core.utils.IsFirst;
 import ua.core.utils.SystemUtils;
 import ua.core.utils.StringParser;
 import ua.core.utils.StringUtils;
@@ -149,7 +150,7 @@ public class FileUtils {
 		
     	for (String pathName: directoryPaths) {
     		
-    		if (isFileExists (getPath (pathName, fileName))) {
+    		if (isFileExists (join (pathName, fileName))) {
     			
     			if (fileDirList == null) {
     				fileDirList = new ArrayList <String>();
@@ -191,7 +192,7 @@ public class FileUtils {
 		
     	for (String path: dirPaths) {
     		
-    		if (isFileExists (getPath (path, fileName))) {
+    		if (isFileExists (join (path, fileName))) {
     		
     			fileDirectory = path;
     			break;
@@ -424,7 +425,7 @@ public class FileUtils {
         	
         	for (String directoryName: directoryNames) {
         		
-        		fileNameList.add (FileUtils.getPath (directoryName, fileName));
+        		fileNameList.add (FileUtils.join (directoryName, fileName));
         	}
         	
             return fileNameList;
@@ -509,21 +510,6 @@ public class FileUtils {
 
 			return null;
 		}
-	}
-	
-
-	/**
-	 * Returns the path (file directory + sparator + file name).
-	 * 
-	 * Returns the correct format for the os.
-	 * 
-	 * @param directoryName
-	 * @param fileName
-	 * @return
-	 */
-	public static String getPath (String directoryName, String fileName) {
-		
-		return directoryName + File.separator + fileName;
 	}
 	
 	
@@ -628,6 +614,31 @@ public class FileUtils {
 	public static boolean isFileExists (String fileName) {
 
 		return (new File (fileName)).exists();
+	}
+	
+	/**
+	 * Returns the path (file directory + separator + subpath + ...).
+	 * 
+	 * Returns the correct format for the os.
+	 * 
+	 * @param directoryName
+	 * @param fileName
+	 * @return
+	 */
+	public static String join (String... subpaths) {
+		
+		StringBuilder fullPathBuffer = new StringBuilder();;
+		IsFirst first = new IsFirst();
+		
+		for (String subPath : subpaths) {
+			
+			if (first.isNotFirst()) {
+				fullPathBuffer.append(File.separator);
+			}
+			fullPathBuffer.append(subPath);
+		}
+		
+		return fullPathBuffer.toString();
 	}
 	
 	public static void move (String sourcePath, String targetPath) throws IOException {

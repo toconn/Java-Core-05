@@ -40,7 +40,7 @@ public class FileDirectoryLocatorCommand implements CollectionResultCommand <Fil
 	@Override
 	public void process (FileDirectory item) throws BreakException {
 
-		if (FileUtils.isFileExists (FileUtils.getPath (item.getDirectory(), fileName))) {
+		if (FileUtils.isFileExists (FileUtils.join (item.getDirectory(), fileName))) {
 			
 			// directory found...
 			// Save and exit loop.

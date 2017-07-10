@@ -183,7 +183,7 @@ public class DirectoryUtils {
 		
     	for (String pathName: pathList) {
     		
-    		if (isDirectoryExists (FileUtils.getPath (pathName, directoryName))) {
+    		if (isDirectoryExists (FileUtils.join (pathName, directoryName))) {
     		
     			directoryPath = pathName;
     			break;
@@ -257,7 +257,7 @@ public class DirectoryUtils {
 		
     	for (String pathName: pathList) {
     		
-    		if (isDirectoryExists (FileUtils.getPath (pathName, directoryName))) {
+    		if (isDirectoryExists (FileUtils.join (pathName, directoryName))) {
     			
     			if (directoryPathList == null)
     				
