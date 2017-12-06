@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import ua.core.base.ExceptionItemNotFound;
 import ua.core.base.ExceptionRemote;
 import ua.core.base.ExceptionRuntime;
-import ua.core.entities.MediaType;
+import ua.core.enums.MediaType;
 
 public class HttpUtils {
 	

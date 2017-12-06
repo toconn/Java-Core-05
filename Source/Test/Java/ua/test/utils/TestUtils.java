@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import ua.core.entities.NameValuePair;
+import ua.core.data.NameValuePair;
 import ua.core.utils.StringCollectionUtils;
 
 public class TestUtils {

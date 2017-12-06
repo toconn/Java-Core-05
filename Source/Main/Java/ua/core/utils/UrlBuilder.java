@@ -3,7 +3,7 @@ package ua.core.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import ua.core.entities.NameValuePair;
+import ua.core.data.NameValuePair;
 
 
 public class UrlBuilder {

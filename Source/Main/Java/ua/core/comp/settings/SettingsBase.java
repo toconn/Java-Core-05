@@ -1,7 +1,7 @@
 package ua.core.comp.settings;
 
 import ua.core.base.ExceptionInvalidValue;
-import ua.core.entities.BooleanType;
+import ua.core.enums.BooleanType;
 
 public abstract class SettingsBase implements Settings {
 

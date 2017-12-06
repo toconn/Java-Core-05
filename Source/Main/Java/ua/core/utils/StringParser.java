@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import ua.core.entities.NameValuePair;
+import ua.core.data.NameValuePair;
 
 /**
  * Parses a string into a list of strings.

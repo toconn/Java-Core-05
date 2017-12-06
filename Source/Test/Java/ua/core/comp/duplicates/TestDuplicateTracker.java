@@ -2,7 +2,7 @@ package ua.core.comp.duplicates;
 
 import org.junit.*;
 
-import ua.core.entities.NameValuePair;
+import ua.core.data.NameValuePair;
 
 import static org.junit.Assert.*;
 

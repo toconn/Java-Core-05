@@ -1,4 +1,4 @@
-package ua.core.entities;
+package ua.core.enums;
 
 import ua.core.utils.MapIgnoreCase;
 
@@ -6,7 +6,7 @@ import ua.core.utils.MapIgnoreCase;
 public enum BooleanType {
 	
 	TRUE		("True", true),
-	FALSE		("False", false);
+	FALSE	("False", false);
 	
 	public static final String[] BOOLEAN_FALSE_STRING_ARRAY = {"false", "f", "no", "n", "0"}; 
 	public static final String[] BOOLEAN_TRUE_STRING_ARRAY = {"true", "t", "yes", "y", "1", "-1"}; 
@@ -79,7 +79,7 @@ public enum BooleanType {
 	private boolean value;
 	
 	
-	private BooleanType (String code, Boolean value) {
+	private BooleanType (String code, boolean value) {
 		
 		this.code = code;
 		this.value = value;

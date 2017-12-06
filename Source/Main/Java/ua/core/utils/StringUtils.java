@@ -9,7 +9,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import ua.core.entities.NameValuePair;
+import ua.core.data.NameValuePair;
+import ua.core.enums.Case;
 
 /**
  * Created 2013.04, Kent WA
@@ -960,6 +961,47 @@ public class StringUtils {
 		else {
 			return string;
 		}
+	}
+	
+	public static String toCase (String words, Set<Case> caseSet) {
+		
+		return toCase (toWords (words), caseSet);
+	}
+	
+	public static String toCase (List<String> words, Set<Case> caseSet) {
+		
+		StringBuilder caseBuilder = new StringBuilder();
+		IsFirst first = new IsFirst();
+		
+		for (String word : words) {
+			
+			if (first.isNotFirst()) {
+				if (caseSet.contains(Case.SNAKE)) {
+					caseBuilder.append ("_");
+				}
+				else if (caseSet.contains(Case.CAMEL)) {
+					caseBuilder.append ("-");
+				}
+			}
+			
+			if (caseSet.contains(Case.CAMEL)) {
+				caseBuilder.append (to1stLowerCase (word));
+			}
+			else if (caseSet.contains(Case.LOWER)) {
+				caseBuilder.append (to1stLowerCase (word));
+			}
+			else if (caseSet.contains(Case.TITLE)) {
+				caseBuilder.append (toTitleCase (word));
+			}
+			else if (caseSet.contains(Case.UPPER)) {
+				caseBuilder.append (toUpperCase (word));
+			}
+			else {
+				caseBuilder.append (word);
+			}
+		}
+		
+		return caseBuilder.toString();
 	}
 	
 	/**

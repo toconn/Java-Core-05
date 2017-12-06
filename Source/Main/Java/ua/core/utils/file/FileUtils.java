@@ -17,7 +17,7 @@ import java.util.Scanner;
 
 import ua.core.base.ExceptionRuntime;
 import ua.core.comp.os.OSConst;
-import ua.core.entities.NameValuePair;
+import ua.core.data.NameValuePair;
 import ua.core.utils.CollectionUtils;
 import ua.core.utils.IsFirst;
 import ua.core.utils.SystemUtils;
