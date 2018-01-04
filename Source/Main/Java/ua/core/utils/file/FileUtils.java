@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import ua.core.base.ExceptionRuntime;
 import ua.core.comp.os.OSConst;
 import ua.core.data.NameValuePair;
+import ua.core.exceptions.ExceptionRuntime;
 import ua.core.utils.CollectionUtils;
 import ua.core.utils.IsFirst;
 import ua.core.utils.SystemUtils;

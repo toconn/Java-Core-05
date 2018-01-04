@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import ua.core.base.ExceptionRuntime;
+import ua.core.exceptions.ExceptionRuntime;
 import ua.core.utils.CollectionResultCommand;
 
 

@@ -1,4 +1,4 @@
-package ua.core.base;
+package ua.core.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import ua.core.utils.StringCollectionUtils;
 
 
 
-public abstract class ExceptionBase extends Exception {
+public abstract class BaseException extends Exception {
 
 	
 	private static final long	serialVersionUID = -1;
@@ -18,21 +18,21 @@ public abstract class ExceptionBase extends Exception {
 	private String separator = " ";
 	
 	
-	public ExceptionBase() {
+	public BaseException() {
 		super();
 	}
 
-	public ExceptionBase (Exception e) {
+	public BaseException (Exception e) {
 		super(e);
 		messages.add (e.getMessage());
 	}
 
-	public ExceptionBase (Exception e, String message) {
+	public BaseException (Exception e, String message) {
 		super(e);
 		messages.add (message);
 	}
 
-	public ExceptionBase (Exception e, List<String> messages) {
+	public BaseException (Exception e, List<String> messages) {
 		
 		super(e);
 
@@ -43,17 +43,17 @@ public abstract class ExceptionBase extends Exception {
 		this.messages = messages;
 	}
 
-	public ExceptionBase (String message) {
+	public BaseException (String message) {
 		super();
 		messages.add (message);
 	}
 
-	public ExceptionBase (String message, Object... messageParamArray) {
+	public BaseException (String message, Object... messageParamArray) {
 		super();
 		addMessage (message, messageParamArray);
 	}
 
-	public ExceptionBase (List <String> messageList) {
+	public BaseException (List <String> messageList) {
 		super();
 		this.messages = messageList;
 	}

@@ -1,8 +1,8 @@
-package ua.core.base;
+package ua.core.exceptions;
 
 import java.util.List;
 
-public class ExceptionRuntime extends ExceptionBaseRuntime {
+public class ExceptionRuntime extends BaseRuntimeException {
 
 	private static final long serialVersionUID = -8941077157542797278L;
 

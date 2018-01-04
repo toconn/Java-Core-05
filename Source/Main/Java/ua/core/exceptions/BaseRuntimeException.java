@@ -1,4 +1,4 @@
-package ua.core.base;
+package ua.core.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,30 +8,30 @@ import ua.core.utils.MessageUtils;
 
 
 
-public abstract class ExceptionBaseRuntime extends RuntimeException {
+public abstract class BaseRuntimeException extends RuntimeException {
 
 	private static final long	serialVersionUID = -3138741202946024745L;
 
 	private List<String> messages = new ArrayList<>();
 
 	
-	public ExceptionBaseRuntime() {
+	public BaseRuntimeException() {
 
 		super();
 	}
 	
-	public ExceptionBaseRuntime (Exception e) {
+	public BaseRuntimeException (Exception e) {
 		
 		super (e);
 		messages.add (e.getMessage());
 	}
 
-	public ExceptionBaseRuntime (Exception e, String message) {
+	public BaseRuntimeException (Exception e, String message) {
 		super(e);
 		messages.add (message);
 	}
 
-	public ExceptionBaseRuntime (Exception e, List<String> messages) {
+	public BaseRuntimeException (Exception e, List<String> messages) {
 		
 		super(e);
 
@@ -42,19 +42,25 @@ public abstract class ExceptionBaseRuntime extends RuntimeException {
 		this.messages = messages;
 	}
 
-	public ExceptionBaseRuntime (String message) {
+	public BaseRuntimeException (Exception e, String message, Object... messageParamArray) {
+
+		super(e);
+		addMessage (message, messageParamArray);
+	}
+
+	public BaseRuntimeException (String message) {
 
 		super();
 		messages.add (message);
 	}
 
-	public ExceptionBaseRuntime (String message, Object... messageParamArray) {
+	public BaseRuntimeException (String message, Object... messageParamArray) {
 
 		super();
 		addMessage (message, messageParamArray);
 	}
 
-	public ExceptionBaseRuntime (List <String> messageList) {
+	public BaseRuntimeException (List <String> messageList) {
 
 		super();
 		this.messages = messageList;

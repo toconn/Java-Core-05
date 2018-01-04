@@ -1,6 +1,6 @@
 package ua.core.utils.filereader;
 
-import ua.core.base.ExceptionItemNotFound;
+import ua.core.exceptions.ItemNotFound;
 import ua.core.utils.file.UaFileReader;
 
 
@@ -16,7 +16,7 @@ public class FileLineReader {
 	}
 	
 	
-	public ILineReader read (String fileName) throws ExceptionItemNotFound {		
+	public ILineReader read (String fileName) throws ItemNotFound {		
 
 		// ///////////////////////////////////////////////////////////////
 		//   Declarations

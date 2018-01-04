@@ -3,8 +3,8 @@ package ua.core.utils.file;
 import java.io.*;
 import java.nio.CharBuffer;
 
-import ua.core.base.ExceptionItemNotFound;
-import ua.core.base.MessageConst;
+import ua.core.exceptions.ExceptionMessages;
+import ua.core.exceptions.ItemNotFound;
 import ua.core.utils.MessageUtils;
 
 
@@ -71,7 +71,7 @@ public class UaFileReader {
 	}
 	
 	
-	public void open() throws ua.core.base.ExceptionItemNotFound {
+	public void open() throws ua.core.exceptions.ItemNotFound {
 		
 		try {
 			
@@ -97,7 +97,7 @@ public class UaFileReader {
 
 			this.close();
 			
-			throw new ExceptionItemNotFound (MessageUtils.toString (MessageConst.MESSAGE_FILE_NOT_FOUND, this.fileName));
+			throw new ItemNotFound (MessageUtils.toString (ExceptionMessages.MESSAGE_FILE_NOT_FOUND, this.fileName));
 		}
 		catch (UnsupportedEncodingException e) {
 

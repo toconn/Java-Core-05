@@ -1,18 +1,18 @@
 package ua.core.comp.settings;
 
-import ua.core.base.ExceptionInvalidValue;
 import ua.core.enums.BooleanType;
+import ua.core.exceptions.InvalidValue;
 
 public abstract class SettingsBase implements Settings {
 
 	@Override
-	public boolean getBoolean (String name) throws ExceptionInvalidValue {
+	public boolean getBoolean (String name) throws InvalidValue {
 
 		BooleanType booleanType;
 		
 		booleanType = BooleanType.getInstance (getString (name));
 		if (booleanType == null) {
-			throw new ExceptionInvalidValue("Invalid property value: '" + name + "'.");
+			throw new InvalidValue("Invalid property value: '" + name + "'.");
 		}
 		
 		return booleanType.getValue();
@@ -25,7 +25,7 @@ public abstract class SettingsBase implements Settings {
 			try {
 				return getBoolean (name);
 			}
-			catch (ExceptionInvalidValue e) {
+			catch (InvalidValue e) {
 				return defaultValue;
 			}
 		}
@@ -35,13 +35,13 @@ public abstract class SettingsBase implements Settings {
 	}
 	
 	@Override
-	public int getInt (String name) throws ExceptionInvalidValue {
+	public int getInt (String name) throws InvalidValue {
 
 		try {
 			return Integer.parseInt (getString (name));
 		}
 		catch (Exception e) {
-			throw new ExceptionInvalidValue();
+			throw new InvalidValue();
 		}
 	}
 	
@@ -52,7 +52,7 @@ public abstract class SettingsBase implements Settings {
 			try {
 				return getInt (name);
 			}
-			catch (ExceptionInvalidValue e) {
+			catch (InvalidValue e) {
 				return defaultValue;
 			}
 		}
@@ -62,13 +62,13 @@ public abstract class SettingsBase implements Settings {
 	}
 
 	@Override
-	public long getLong (String name) throws ExceptionInvalidValue {
+	public long getLong (String name) throws InvalidValue {
 
 		try {
 			return Long.parseLong (getString (name));
 		}
 		catch (Exception e) {
-			throw new ExceptionInvalidValue();
+			throw new InvalidValue();
 		}
 	}
 	
@@ -79,7 +79,7 @@ public abstract class SettingsBase implements Settings {
 			try {
 				return getLong (name);
 			}
-			catch (ExceptionInvalidValue e) {
+			catch (InvalidValue e) {
 				return defaultValue;
 			}
 		}

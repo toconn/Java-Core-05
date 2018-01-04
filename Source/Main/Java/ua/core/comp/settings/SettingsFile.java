@@ -14,10 +14,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import ua.core.base.ExceptionItemNotFound;
-import ua.core.base.ExceptionRuntime;
-import ua.core.base.MessageConst;
 import ua.core.comp.os.OSConst;
+import ua.core.exceptions.ExceptionMessages;
+import ua.core.exceptions.InternalException;
+import ua.core.exceptions.ItemNotFound;
 import ua.core.utils.MapIgnoreCase;
 import ua.core.utils.StringUtils;
 
@@ -113,7 +113,7 @@ public class SettingsFile extends SettingsBase implements Settings {
 	}
 	
 	
-	public void load (String fileName) throws ExceptionItemNotFound, ExceptionRuntime {
+	public void load (String fileName) throws ItemNotFound {
 		
 		try {
 			
@@ -121,11 +121,11 @@ public class SettingsFile extends SettingsBase implements Settings {
 		}
 		catch (FileNotFoundException e) {
 			
-			throw new ExceptionItemNotFound (MessageConst.MESSAGE_FILE_NOT_FOUND, fileName);
+			throw new ItemNotFound (ExceptionMessages.MESSAGE_FILE_NOT_FOUND, fileName);
 		}
 		catch (IOException e) {
 
-			throw new ExceptionRuntime (e);
+			throw new InternalException (e);
 		}
 	}
 
@@ -262,7 +262,7 @@ public class SettingsFile extends SettingsBase implements Settings {
 	}
 	
 	
-	public void save (String fileName) throws ExceptionRuntime {
+	public void save (String fileName) throws InternalException {
 		
 		try {
 			
@@ -270,7 +270,7 @@ public class SettingsFile extends SettingsBase implements Settings {
 		}
 		catch (IOException e) {
 			
-			throw new ExceptionRuntime (e);
+			throw new InternalException (e);
 		}
 	}
 

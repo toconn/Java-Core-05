@@ -3,17 +3,17 @@ package ua.core.comp.settings;
 import java.util.List;
 import java.util.Set;
 
-import ua.core.base.ExceptionInvalidValue;
+import ua.core.exceptions.InvalidValue;
 
 public interface Settings {
 
 	public Set <String> getKeys();
 	
-	public boolean getBoolean (String name) throws ExceptionInvalidValue;
+	public boolean getBoolean (String name) throws InvalidValue;
 	public boolean getBoolean (String name, boolean defaultValue);
-	public int getInt (String name) throws ExceptionInvalidValue;
+	public int getInt (String name) throws InvalidValue;
 	public int getInt (String name, int defaultValue);
-	public long getLong (String name) throws ExceptionInvalidValue;
+	public long getLong (String name) throws InvalidValue;
 	public long getLong (String name, long defaultValue);
 	public String getString (String name);
 	public String getString (String name, String defaultValue);

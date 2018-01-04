@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import ua.core.base.ExceptionItemNotFound;
-import ua.core.base.MessageConst;
+import ua.core.exceptions.ExceptionMessages;
+import ua.core.exceptions.ItemNotFound;
 import ua.core.utils.MessageUtils;
 
 
@@ -20,9 +20,9 @@ public class DirectoryUtils {
 	 * @param sourceDirectory
 	 * @param targetDirectory
 	 * @throws IOException 
-	 * @throws ExceptionItemNotFound 
+	 * @throws ItemNotFound 
 	 */
-	public static void copyDirectory (String sourceDirectory, String targetDirectory) throws IOException, ExceptionItemNotFound {
+	public static void copyDirectory (String sourceDirectory, String targetDirectory) throws IOException, ItemNotFound {
 		
 		// ///////////////////////////////////////////////////////////////
 		//   Declarations
@@ -49,9 +49,9 @@ public class DirectoryUtils {
 	 * @param sourceDirectory
 	 * @param targetDirectory
 	 * @throws IOException
-	 * @throws ExceptionItemNotFound 
+	 * @throws ItemNotFound 
 	 */
-	public static void copyDirectory (File sourceDirectory, File targetDirectory) throws IOException, ExceptionItemNotFound {
+	public static void copyDirectory (File sourceDirectory, File targetDirectory) throws IOException, ItemNotFound {
 		
 		// ///////////////////////////////////////////////////////////////
 		//   Declarations
@@ -69,7 +69,7 @@ public class DirectoryUtils {
 
 		if (! sourceDirectory.exists())
 			
-			throw new ExceptionItemNotFound (MessageUtils.toString (MessageConst.MESSAGE_FILE_NOT_FOUND, sourceDirectory.getName()));
+			throw new ItemNotFound (MessageUtils.toString (ExceptionMessages.MESSAGE_FILE_NOT_FOUND, sourceDirectory.getName()));
 			
 		
 		if (sourceDirectory.isDirectory()) {

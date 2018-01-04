@@ -8,18 +8,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-
-import ua.core.base.ExceptionItemNotFound;
-import ua.core.base.ExceptionRemote;
-import ua.core.base.ExceptionRuntime;
 import ua.core.enums.MediaType;
+import ua.core.exceptions.ExceptionRuntime;
+import ua.core.exceptions.ItemNotFound;
+import ua.core.exceptions.RemoteServerException;
 
 public class HttpUtils {
 	
 	public static final int HTTP_RESPONSE_OK = 200;
 	public static final int HTTP_NOT_FOUND = 404;
 	
-	public static String sendDelete (String urlString) throws ExceptionRuntime, ExceptionRemote, ExceptionItemNotFound {
+	public static String sendDelete (String urlString) throws RemoteServerException, ItemNotFound {
 
 		HttpURLConnection	httpConnection = null;
 
@@ -27,7 +26,7 @@ public class HttpUtils {
 		return connectRead (httpConnection);
 	}
 	
-	public static String sendGet (String urlString) throws ExceptionRuntime, ExceptionRemote, ExceptionItemNotFound {
+	public static String sendGet (String urlString) throws RemoteServerException, ItemNotFound {
 
 		HttpURLConnection	httpConnection = null;
 
@@ -35,7 +34,7 @@ public class HttpUtils {
 		return connectRead (httpConnection);
 	}
 	
-	public static String sendPost (String urlString, String requestData, MediaType mediaType) throws ExceptionRuntime, ExceptionRemote, ExceptionItemNotFound {
+	public static String sendPost (String urlString, String requestData, MediaType mediaType) throws RemoteServerException, ItemNotFound {
 		
 		HttpURLConnection	httpConnection = null;
 
@@ -45,7 +44,7 @@ public class HttpUtils {
 	
 	
 	
-	private static String connectRead (HttpURLConnection httpConnnection) throws ExceptionRemote, ExceptionRuntime, ExceptionItemNotFound {
+	private static String connectRead (HttpURLConnection httpConnnection) throws ItemNotFound {
 		
 		String response;
 		
@@ -57,13 +56,13 @@ public class HttpUtils {
 
 			return response;
 		}
-		catch (ExceptionItemNotFound e) {
+		catch (ItemNotFound e) {
 			
 			throw e;
 		}
 		catch (IOException e) {
 	
-			throw new ExceptionRemote (e, "Unable to make http request.");
+			throw new RemoteServerException (e, "Unable to make http request.");
 		}
 		catch (Exception e) {
 			
@@ -77,7 +76,7 @@ public class HttpUtils {
 		}
 	}
 	
-	private static String connectWriteRead (HttpURLConnection httpConnection, String requestData, MediaType mediaType) throws ExceptionRemote, ExceptionRuntime, ExceptionItemNotFound {
+	private static String connectWriteRead (HttpURLConnection httpConnection, String requestData, MediaType mediaType) throws RemoteServerException, ExceptionRuntime, ItemNotFound {
 		
 		byte[]	dataBytes;
 		String	response;
@@ -106,13 +105,13 @@ public class HttpUtils {
 			
 			return response;
 		}
-		catch (ExceptionItemNotFound e) {
+		catch (ItemNotFound e) {
 			
 			throw e;
 		}
 		catch (IOException e) {
 			
-			throw new ExceptionRemote (e, "Unable to make http request.");
+			throw new RemoteServerException (e, "Unable to make http request.");
 		}
 		catch (Exception e) {
 			
@@ -126,7 +125,7 @@ public class HttpUtils {
 		}
 	}
 	
-	private static HttpURLConnection newHttpConnection (String urlString, String httpMethod) throws ExceptionRemote {
+	private static HttpURLConnection newHttpConnection (String urlString, String httpMethod) throws RemoteServerException {
 		
 		URL					url;
 		HttpURLConnection	httpConnection = null;
@@ -141,7 +140,7 @@ public class HttpUtils {
 		}
 		catch (IOException e) {
 			
-			throw new ExceptionRemote (e, "Unable to setup http request.");
+			throw new RemoteServerException (e, "Unable to setup http request.");
 		}
 	}
 	
@@ -163,14 +162,14 @@ public class HttpUtils {
 		return stringBuilder.toString();
 	}
 	
-	private static void validateStatus (HttpURLConnection httpConnection) throws ExceptionRemote, ExceptionItemNotFound, IOException {
+	private static void validateStatus (HttpURLConnection httpConnection) throws RemoteServerException, ItemNotFound, IOException {
 		
 		if (httpConnection.getResponseCode() != HTTP_RESPONSE_OK) {
 			if (httpConnection.getResponseCode() == HTTP_NOT_FOUND) {
-				throw new ExceptionItemNotFound ("");
+				throw new ItemNotFound ("");
 			}
 			else {
-				throw new ExceptionRemote ("Http request faied: " + httpConnection.getResponseCode() + " " + httpConnection.getResponseMessage());
+				throw new RemoteServerException ("Http request faied: " + httpConnection.getResponseCode() + " " + httpConnection.getResponseMessage());
 			}
 		}
 	}

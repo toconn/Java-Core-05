@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import ua.core.base.ExceptionRuntime;
+import ua.core.exceptions.InternalException;
 
 
 public class CollectionUtils {
@@ -394,7 +394,7 @@ public class CollectionUtils {
 	 * @return
 	 * @throws InternalException 
 	 */
-	public static <Item> void iterateMethod (Iterable <Item> items, String methodName) throws ExceptionRuntime {
+	public static <Item> void iterateMethod (Iterable <Item> items, String methodName) throws InternalException {
 		
 		IsFirst first;
 		Method method = null;
@@ -408,7 +408,7 @@ public class CollectionUtils {
 					method = item.getClass().getMethod (methodName);
 				}
 				catch (SecurityException | NoSuchMethodException e) {
-					throw new ExceptionRuntime (e);
+					throw new InternalException (e);
 				}
 			}
 			
@@ -416,7 +416,7 @@ public class CollectionUtils {
 				method.invoke (item);
 			}
 			catch (IllegalAccessException | InvocationTargetException e) {
-				throw new ExceptionRuntime (e);
+				throw new InternalException (e);
 			}
 		}
 	}

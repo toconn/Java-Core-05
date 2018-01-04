@@ -3,8 +3,8 @@ package ua.core.comp.filelocator;
 import java.util.ArrayList;
 import java.util.List;
 
-import ua.core.base.ExceptionInvalidConfiguration;
 import ua.core.comp.os.OS;
+import ua.core.exceptions.InvalidConfiguration;
 import ua.core.utils.CollectionUtils;
 import ua.core.utils.EnvironmentUtils;
 import ua.core.utils.StringCollectionUtils;
@@ -40,7 +40,7 @@ public class FileLocatorMain implements FileLocator {
 		public Builder includeUserDocDirs (boolean includeUserDocDirs) { this.includeUserDocDirs = includeUserDocDirs; return this; }
 		public Builder os (OS os) { this.os = os; return this; }
 
-		public FileLocatorMain build() throws ExceptionInvalidConfiguration { return new FileLocatorMain (this); }
+		public FileLocatorMain build() throws InvalidConfiguration { return new FileLocatorMain (this); }
 	}
 
 	private String appConfigFileName;
@@ -52,7 +52,7 @@ public class FileLocatorMain implements FileLocator {
 	private boolean includeUserDocDirs;
 	private OS os;
 
-	private FileLocatorMain (Builder builder) throws ExceptionInvalidConfiguration {
+	private FileLocatorMain (Builder builder) throws InvalidConfiguration {
 
 		this.appConfigFileName = builder.appConfigFileName;
 		this.appConfigPathEnvName = builder.appConfigPathEnvName;
@@ -345,7 +345,7 @@ public class FileLocatorMain implements FileLocator {
 		return paths;
 	}
 	
-	private void validateConfig() throws ExceptionInvalidConfiguration {
+	private void validateConfig() throws InvalidConfiguration {
 		
 		List<String> errors = null;
 		
@@ -362,7 +362,7 @@ public class FileLocatorMain implements FileLocator {
 		}
 		
 		if (errors != null) {
-			throw new ExceptionInvalidConfiguration("FileLocatorMain: " + StringCollectionUtils.join (errors, " "));
+			throw new InvalidConfiguration("FileLocatorMain: " + StringCollectionUtils.join (errors, " "));
 		}
 	}
 }
