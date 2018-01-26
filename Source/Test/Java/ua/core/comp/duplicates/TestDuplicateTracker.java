@@ -19,14 +19,14 @@ public class TestDuplicateTracker {
 	private final static String ITEM_2_NAME = "Item 2";
 	private final static String ITEM_2_VALUE = "Item 2 Value";
 	
-	private final static String ITEM_3_NAME = "Item 3";
-	private final static String ITEM_3_VALUE = "Item 3 Value";
+	// private final static String ITEM_3_NAME = "Item 3";
+	// private final static String ITEM_3_VALUE = "Item 3 Value";
 	
 	private final static NameValuePair ITEM_1_1 = new NameValuePair(ITEM_1_NAME, ITEM_1_1_VALUE);
 	private final static NameValuePair ITEM_1_2 = new NameValuePair(ITEM_1_NAME, ITEM_1_2_VALUE);
 	private final static NameValuePair ITEM_1_3 = new NameValuePair(ITEM_1_NAME, ITEM_1_3_VALUE);
 	private final static NameValuePair ITEM_2 = new NameValuePair(ITEM_2_NAME, ITEM_2_VALUE);
-	private final static NameValuePair ITEM_3 = new NameValuePair(ITEM_3_NAME, ITEM_3_VALUE);
+	// private final static NameValuePair ITEM_3 = new NameValuePair(ITEM_3_NAME, ITEM_3_VALUE);
 	
 	DuplicateTracker <NameValuePair> emptyDuplicateTracker;
 	DuplicateTracker <NameValuePair> singleItemDuplicateTracker;
