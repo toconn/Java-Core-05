@@ -82,6 +82,19 @@ public class SettingsFile extends SettingsBase implements Settings {
 		return appPropsMap.keySet();
 	}
 	
+	/**
+	 * Load file from location in environment.
+	 * 
+	 * The environment name is checked in Java's system properties
+	 * and then in the environment. If it exists and points to
+	 * a file, the file will be loaded.
+	 * 
+	 * Otherwise an exception will be thrown.
+	 * 
+	 * @param environmentName
+	 * @throws InvalidConfiguration
+	 * @throws ItemNotFound
+	 */
 	public void loadFromEnvironment (String environmentName) throws InvalidConfiguration, ItemNotFound {
 		
 		String filePath;
