@@ -1,9 +1,43 @@
 package ua.core.comp.settings;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import ua.core.enums.BooleanType;
 import ua.core.exceptions.InvalidValue;
+import ua.core.utils.StringUtils;
 
 public abstract class SettingsBase implements Settings {
+
+	@Override
+	public List<String> findMatching (List<String> names) {
+		
+		List<String> matches = new ArrayList<>();
+		
+		for (String name: names) {
+			if (hasProperty (name)) {
+				matches.add(name);
+			}
+		}
+
+		return matches;
+	}
+
+	@Override
+	public List<String> findMissing(List<String> names) {
+		
+		List<String> missing = new ArrayList<>();
+		
+		for (String name: names) {
+			if (! hasProperty (name)) {
+				missing.add(name);
+			}
+		}
+
+		return missing;
+	}
 
 	@Override
 	public boolean getBoolean (String name) throws InvalidValue {
@@ -41,7 +75,7 @@ public abstract class SettingsBase implements Settings {
 			return Integer.parseInt (getString (name));
 		}
 		catch (Exception e) {
-			throw new InvalidValue();
+			throw new InvalidValue (name);
 		}
 	}
 	
@@ -60,6 +94,22 @@ public abstract class SettingsBase implements Settings {
 			return defaultValue;
 		}
 	}
+	
+	@Override
+	public Set<String> getKeySubset (String name) {
+
+		Set<String> keySetSubset;
+		
+		keySetSubset = new HashSet<String>();
+		
+		for (String key: getKeys()) {
+			if (StringUtils.isStartsWithIgnoreCase (key, name)) {
+				keySetSubset.add (key);
+			}
+		}
+		
+		return keySetSubset;
+	}
 
 	@Override
 	public long getLong (String name) throws InvalidValue {
@@ -68,7 +118,7 @@ public abstract class SettingsBase implements Settings {
 			return Long.parseLong (getString (name));
 		}
 		catch (Exception e) {
-			throw new InvalidValue();
+			throw new InvalidValue (name);
 		}
 	}
 	

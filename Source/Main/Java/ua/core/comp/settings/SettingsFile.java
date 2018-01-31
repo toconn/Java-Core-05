@@ -8,57 +8,41 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 import ua.core.comp.os.OSConst;
 import ua.core.exceptions.ExceptionMessages;
 import ua.core.exceptions.InternalException;
+import ua.core.exceptions.InvalidConfiguration;
 import ua.core.exceptions.ItemNotFound;
+import ua.core.utils.EnvironmentUtils;
 import ua.core.utils.MapIgnoreCase;
 import ua.core.utils.StringUtils;
 
 public class SettingsFile extends SettingsBase implements Settings {
 
-	public static final String	FILE_ENCODING = "UTF-8";
+	public static final String	FILE_ENCODING				= "UTF-8";
 
-    private static final String	CHARACTERS_WHITE_SPACE		= " \t\r\n\f";
-    private static final String	SEPARATORS_KEY_VALUE			= "= \t\r\n\f";
-    private static final String 	SEPARATORS_KEY_VALUE_STRICT	= "=";
+	private static final String	CHARACTERS_WHITE_SPACE		= " \t\r\n\f";
+	private static final String	SEPARATORS_KEY_VALUE		= "= \t\r\n\f";
+	private static final String SEPARATORS_KEY_VALUE_STRICT	= "=";
 	
 	private static class ItemProperty {
 		
-		String name;
 		String value;
-		String text;
+		String text;	// The original text of the line.
 
 		public ItemProperty (String text) {
 
-			this.name = null;
 			this.value = null;
 			this.text = text;
 		}
 		
-		public ItemProperty (String name, String value) {
+		public ItemProperty (String value, String text) {
 
-			this.name = name;
-			this.value = value;
-			this.text = name + "=" + value;
-		}
-		
-		public ItemProperty (String name, String value, String text) {
-
-			this.name = name;
 			this.value = value;
 			this.text = text;
-		}
-
-		public String getName() {
-		
-			return name;
 		}
 		
 		public String getValue() {
@@ -77,9 +61,14 @@ public class SettingsFile extends SettingsBase implements Settings {
 	private LinkedList <ItemProperty> appPropsLinkedList = new LinkedList <ItemProperty>();
 	
 	@Override
-	public Set <String> getKeys() {
+	public Set<String> getKeys() {
 
-		Set <String> keySet;
+		/*
+		 * key should always = .getName()
+		 * 
+		 * Not sure why I did this this way but I'm replacing it with a simpler version
+		
+		Set<String> keySet;
 		
 		keySet = new HashSet <String>();
 		
@@ -87,44 +76,42 @@ public class SettingsFile extends SettingsBase implements Settings {
 			keySet.add (appPropsMap.get (key).getName());
 		}
 		
-		return null;
+		return keySet;
+		*/
+		
+		return appPropsMap.keySet();
 	}
 	
-	/**
-	 * Return a list of all the items that match the string.
-	 * 
-	 * Inefficient hack (time constraints).
-	 * 
-	 */
-
-	@Override
-	public List <String> getStrings (String name) {
+	public void loadFromEnvironment (String environmentName) throws InvalidConfiguration, ItemNotFound {
 		
-		List <String> matchingStrings = new ArrayList<>();
+		String filePath;
 		
-		for (ItemProperty item: appPropsLinkedList) {
-			
-			if (StringUtils.isEqual (name, item.getName())) {
-				matchingStrings.add (item.getValue());
-			}
+		filePath = System.getProperty(environmentName);
+		
+		
+		if (filePath == null) { 
+			filePath = System.getenv (environmentName);
 		}
+
+		filePath = EnvironmentUtils.evaluate (filePath);
 		
-		return matchingStrings;
+		if (StringUtils.isEmpty (filePath)) {
+			throw new InvalidConfiguration ("Environment variable '" + environmentName + "' is missing.");
+		}
+		else {
+			load (filePath);
+		}
 	}
 	
-	
-	public void load (String fileName) throws ItemNotFound {
+	public void load (String filePath) throws ItemNotFound {
 		
 		try {
-			
-			load (new FileInputStream (fileName));
+			load (new FileInputStream (filePath));
 		}
 		catch (FileNotFoundException e) {
-			
-			throw new ItemNotFound (ExceptionMessages.MESSAGE_FILE_NOT_FOUND, fileName);
+			throw new ItemNotFound (ExceptionMessages.MESSAGE_FILE_NOT_FOUND, filePath);
 		}
 		catch (IOException e) {
-
 			throw new InternalException (e);
 		}
 	}
@@ -144,8 +131,8 @@ public class SettingsFile extends SettingsBase implements Settings {
 		int				separatorIndex;
 		int				valueIndex;
 	
-		char				firstChar;
-		char				currentChar;
+		char			firstChar;
+		char			currentChar;
 		
 		String			propertyName	= null;
 		String			propertyValue	= null;
@@ -161,102 +148,97 @@ public class SettingsFile extends SettingsBase implements Settings {
 		
 		do {
 			
-	        // Get next line...
+			// Get next line...
 			
 			inputLine = inputReader.readLine();
 			lineAdded = false;
 			
-	        if (inputLine != null && inputLine.length() > 0) {
-	        	
-	            // Continue lines that end in slashes if they are not comments
-	        	
-	            firstChar = inputLine.charAt(0);
-	            
-	            if ((firstChar != '#') && (firstChar != '!')) {
+			if (StringUtils.isNotEmpty (inputLine)) {
+				
+				// Continue lines that end in slashes if they are not comments
+				
+				firstChar = inputLine.charAt(0);
+				
+				if ((firstChar != '#') && (firstChar != '!')) {
 	
-	                // Find start of key
-	                
-	                inputLineLength = inputLine.length();
+					// Find start of key
+					
+					inputLineLength = inputLine.length();
 	
-	                for (keyIndex = 0; keyIndex < inputLineLength; keyIndex++) {
-	                	
-	                    if (CHARACTERS_WHITE_SPACE.indexOf (inputLine.charAt (keyIndex)) == -1) {
-	                    	
-	                        break;
-	                    }
-	                }
+					for (keyIndex = 0; keyIndex < inputLineLength; keyIndex++) {
+						
+						if (CHARACTERS_WHITE_SPACE.indexOf (inputLine.charAt (keyIndex)) == -1) {
+							
+							break;
+						}
+					}
 	
-	                // Blank lines are ignored...
-	                
-	                if (keyIndex == inputLineLength) {
-	                	
-	                    continue;
-	                }
+					// Blank lines are ignored...
+					
+					if (keyIndex == inputLineLength) {
+						
+						continue;
+					}
 	
-	                // Find separation between key and value...
+					// Find separation between key and value...
 	
-	                for (separatorIndex = keyIndex; separatorIndex < inputLineLength; separatorIndex++) {
-	                	
-	                    currentChar = inputLine.charAt (separatorIndex);
-	                    
-	                    if (currentChar == '\\') {
-	                    	
-	                        separatorIndex++;
-	                    }
-	                    else if (SEPARATORS_KEY_VALUE.indexOf (currentChar) != -1) {
-	                    	
-	                        break;
-	                    }
-	                }
+					for (separatorIndex = keyIndex; separatorIndex < inputLineLength; separatorIndex++) {
+						
+						currentChar = inputLine.charAt (separatorIndex);
+						
+						if (currentChar == '\\') {
+							separatorIndex++;
+						}
+						else if (SEPARATORS_KEY_VALUE.indexOf (currentChar) != -1) {
+							break;
+						}
+					}
 	
-	                // Skip over whitespace after key if any
+					// Skip over whitespace after key if any
 	
-	                for (valueIndex=separatorIndex; valueIndex<inputLineLength; valueIndex++) {
-	                	
-	                    if (CHARACTERS_WHITE_SPACE.indexOf (inputLine.charAt(valueIndex)) == -1) {
-	                    	
-	                        break;
-	                    }
-	                }
-	                
-	                // Skip over one non whitespace key value separators if any...
-	                    
-	                if (valueIndex < inputLineLength) {
-	                	
-	                    if (SEPARATORS_KEY_VALUE_STRICT.indexOf (inputLine.charAt(valueIndex)) != -1) {
-	                    	
-	                        valueIndex++;
-	                    }
-	                }
+					for (valueIndex=separatorIndex; valueIndex<inputLineLength; valueIndex++) {
+						
+						if (CHARACTERS_WHITE_SPACE.indexOf (inputLine.charAt(valueIndex)) == -1) {
+							break;
+						}
+					}
+					
+					// Skip over one non whitespace key value separators if any...
+						
+					if (valueIndex < inputLineLength) {
+						
+						if (SEPARATORS_KEY_VALUE_STRICT.indexOf (inputLine.charAt(valueIndex)) != -1) {
+							valueIndex++;
+						}
+					}
 	
-	                // Skip over white space after other separators if any...
-	                    
-	                while (valueIndex < inputLineLength) {
-	                	
-	                    if (CHARACTERS_WHITE_SPACE.indexOf (inputLine.charAt (valueIndex)) == -1) {
-	                    	
-	                        break;
-	                    }
-	                    
-	                    valueIndex++;
-	                }
+					// Skip over white space after other separators if any...
+						
+					while (valueIndex < inputLineLength) {
+						
+						if (CHARACTERS_WHITE_SPACE.indexOf (inputLine.charAt (valueIndex)) == -1) {
+							break;
+						}
+						
+						valueIndex++;
+					}
 	
-	                propertyName	= inputLine.substring (keyIndex, separatorIndex);
-	                propertyValue	= (separatorIndex < inputLineLength) ? inputLine.substring (valueIndex, inputLineLength) : "";
+					propertyName	= inputLine.substring (keyIndex, separatorIndex);
+					propertyValue	= (separatorIndex < inputLineLength) ? inputLine.substring (valueIndex, inputLineLength) : "";
 	
-	                // Convert key and value...
-	                
-	                // propertyName	= convertEscapedCharacters (propertyName);
-	                // propertyValue = convertEscapedCharacters (propertyValue);
-	                
-	                setItem (propertyName, propertyValue, inputLine);
-	                lineAdded = true;
-	            }
-	        }
-	        
-	        if (! lineAdded) {
-	        	setNonItem (inputLine);
-	        }
+					// Convert key and value...
+					
+					// propertyName	= convertEscapedCharacters (propertyName);
+					// propertyValue = convertEscapedCharacters (propertyValue);
+					
+					setItem (propertyName, propertyValue, inputLine);
+					lineAdded = true;
+				}
+			}
+			
+			if (! lineAdded) {
+				setNonItem (inputLine);
+			}
 		}
 		while (inputLine != null);
 	}
@@ -326,7 +308,7 @@ public class SettingsFile extends SettingsBase implements Settings {
 		ItemProperty newItem;
 		ItemProperty currentItem;
 		
-		newItem = new ItemProperty (name, value);
+		newItem = new ItemProperty (value, name + " = " + value);
 		
 		if (! hasItem (name)) {
 			appPropsMap.add (name, newItem);
@@ -351,13 +333,13 @@ public class SettingsFile extends SettingsBase implements Settings {
 
 		ItemProperty newItem;
 		
-		newItem = new ItemProperty (name, value, text);
+		newItem = new ItemProperty (value, text);
 		appPropsMap.add (name, newItem);
 		appPropsLinkedList.add (newItem);
 	}
 	
 	/**
-	 * Store a not property line.
+	 * Store a non-property line.
 	 * 
 	 * Stored to that if the file is written out, comments and spacing can be preserved.
 	 * 	

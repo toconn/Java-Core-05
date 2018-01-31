@@ -7,58 +7,61 @@ import java.util.Set;
 
 import ua.core.utils.MapIgnoreCase;
 
-public class SettingsMain extends SettingsBase implements Settings {
+public class SettingsSimple extends SettingsBase implements Settings {
 
 	private Map <String, String> appPropsMap = new MapIgnoreCase <String>();
 
 	
-	public SettingsMain() {
+	public SettingsSimple() {
 	}
 
-	public SettingsMain (String [][] appPropsArray) {
+	public SettingsSimple (String [][] appPropsArray) {
 		
 		for (String[] appPropPair : appPropsArray) {
 			setItem (appPropPair[0], appPropPair[1]);
 		}
 	}
 	
-	/**
-	 * Return the matching item in a list. Item lists are not supported in this version of App Properties Type.
-	 * 
-	 * Inefficient hack (time constraints).
-	 * 
-	 */
 	@Override
-	public List <String> getStrings (String name) {
+	public List<String> findMatching (List<String> names) {
 		
-		List <String> matchingStrings = new ArrayList<>();
-		String value;
-
-		value = getItem (name);
+		List<String> matches = new ArrayList<>();
 		
-		if (value != null) {
-			matchingStrings.add (value);
+		for (String name: names) {
+			if (hasProperty (name)) {
+				matches.add(name);
+			}
 		}
-		
-		return matchingStrings;
+
+		return matches;
 	}
 
-	
+	@Override
+	public List<String> findMissing(List<String> names) {
+		
+		List<String> missing = new ArrayList<>();
+		
+		for (String name: names) {
+			if (! hasProperty (name)) {
+				missing.add(name);
+			}
+		}
+
+		return missing;
+	}
+
 	@Override
 	public Set <String> getKeys() {
-		
 		return appPropsMap.keySet();
 	}
 	
 	@Override
 	String getItem (String name) {
-
 		return appPropsMap.get (name);
 	}
 		
 	@Override
 	boolean hasItem (String name) {
-
 		return appPropsMap.containsKey (name);
 	}
 	
