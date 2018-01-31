@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ua.core.exceptions.Break;
 import ua.core.exceptions.InternalException;
 
 
@@ -379,7 +380,7 @@ public class CollectionUtils {
 				collectionCommand.process (item);
 			}
 		}
-		catch (BreakException e) {
+		catch (Break e) {
 			
 			// Exit routine.
 		}
@@ -399,7 +400,7 @@ public class CollectionUtils {
 				collectionCommand.process (item);
 			}
 		}
-		catch (BreakException e) {
+		catch (Break e) {
 			
 			// Exit routine.
 		}

@@ -1,5 +1,7 @@
 package ua.core.utils;
 
+import ua.core.exceptions.Break;
+
 /**
 * This is a command that is to be iterated over a collection.
 * 
@@ -9,5 +11,5 @@ package ua.core.utils;
 */
 public interface CollectionCommand <Item> {
 	
-	public void process (Item item) throws BreakException ;
+	public void process (Item item) throws Break ;
 }

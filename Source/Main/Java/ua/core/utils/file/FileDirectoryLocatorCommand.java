@@ -2,7 +2,7 @@ package ua.core.utils.file;
 
 import java.util.Collection;
 
-import ua.core.utils.BreakException;
+import ua.core.exceptions.Break;
 import ua.core.utils.CollectionResultCommand;
 import ua.core.utils.CollectionUtils;
 
@@ -38,7 +38,7 @@ public class FileDirectoryLocatorCommand implements CollectionResultCommand <Fil
 	}
 
 	@Override
-	public void process (FileDirectory item) throws BreakException {
+	public void process (FileDirectory item) throws Break {
 
 		if (FileUtils.isFileExists (FileUtils.join (item.getDirectory(), fileName))) {
 			
@@ -46,7 +46,7 @@ public class FileDirectoryLocatorCommand implements CollectionResultCommand <Fil
 			// Save and exit loop.
 			
 			directoryName = item.getDirectory();
-			throw new BreakException();
+			throw new Break();
 		}
 	}
 }
