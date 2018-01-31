@@ -23,10 +23,10 @@ import ua.core.utils.StringUtils;
 
 public class SettingsFile extends SettingsBase implements Settings {
 
-	public static final String		FILE_ENCODING = "UTF-8";
+	public static final String	FILE_ENCODING = "UTF-8";
 
-    private static final String		CHARACTERS_WHITE_SPACE		= " \t\r\n\f";
-    private static final String		SEPARATORS_KEY_VALUE		= "= \t\r\n\f";
+    private static final String	CHARACTERS_WHITE_SPACE		= " \t\r\n\f";
+    private static final String	SEPARATORS_KEY_VALUE			= "= \t\r\n\f";
     private static final String 	SEPARATORS_KEY_VALUE_STRICT	= "=";
 	
 	private static class ItemProperty {
@@ -144,8 +144,8 @@ public class SettingsFile extends SettingsBase implements Settings {
 		int				separatorIndex;
 		int				valueIndex;
 	
-		char			firstChar;
-		char			currentChar;
+		char				firstChar;
+		char				currentChar;
 		
 		String			propertyName	= null;
 		String			propertyValue	= null;

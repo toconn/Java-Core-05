@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 /**
  * Returns an iterator that iterates over a multiline string.
- * Use to loop through a multiline string in a for statement.
+ * Use primarily to iterate in a for statement.
  * 
  * @author Tadhg
  *

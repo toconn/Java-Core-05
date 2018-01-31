@@ -183,6 +183,18 @@ public class CollectionUtils {
 		
 		return list;
 	}
+	
+	public static <T> Map<T,T> asMap (Collection <T> collection) {
+		
+		Map<T,T> map = new HashMap<>();
+		
+		for (T item : collection) {
+			
+			map.put (item, item);
+		}
+		
+		return map;
+	}
 
 	/**
 	 * Create a new set with one item in it.
@@ -219,18 +231,6 @@ public class CollectionUtils {
 		
 		return set;
 	}
-	
-	public static <T> Map<T,T> asMap (Collection <T> collection) {
-		
-		Map<T,T> map = new HashMap<>();
-		
-		for (T item : collection) {
-			
-			map.put (item, item);
-		}
-		
-		return map;
-	}
 
 	/**
 	 * Creates a new set out of the elements of the collection.
@@ -247,6 +247,29 @@ public class CollectionUtils {
 		
 		return set;
 	}
+	
+	/**
+	 * Returns a sorted list for any collection.
+	 * 
+	 * @param collection
+	 * @return
+	 */
+	public static <T extends Comparable<? super T>> List<T> asSortedList (Collection<T> collection) {
+
+		// DECLARATIONS:
+
+		List<T>	list;
+		
+		
+		// CODE:
+		
+		list = new ArrayList<T> (collection);
+		java.util.Collections.sort (list);
+		
+		return list;
+	}
+	
+
 	
 	public static <T> String concatenateToString (Collection <T> collection, String separator) {
 

@@ -648,6 +648,61 @@ public class StringUtils {
 		return startsWith;
 	}
 	
+	public static String join (String[] strings, String spacer) {
+		
+		StringBuilder	stringBuilder	= null;
+		boolean			isFirst;
+
+
+		stringBuilder	= new StringBuilder ();
+		
+		isFirst = true;
+		
+		for (String string : strings) {
+			
+			if (spacer != null) {
+				if (isFirst) {
+					isFirst = false;
+				}
+				else {
+					stringBuilder.append (spacer);
+				}
+			}
+			
+			stringBuilder.append (string);
+		}
+		
+		
+		return stringBuilder.toString();
+	}
+	
+	public static String join (Collection <String> strings, String spacer) {
+		
+		StringBuilder	stringBuilder	= null;
+		boolean			isFirst;
+
+
+		stringBuilder = new StringBuilder ();
+		
+		isFirst = true;
+		
+		for (String string : strings) {
+			
+			if (spacer != null) {
+				if (isFirst) {
+					isFirst = false;
+				}
+				else {
+					stringBuilder.append (spacer);
+				}
+			}
+			
+			stringBuilder.append (string);
+		}
+		
+		return stringBuilder.toString();
+	}
+	
 	/**
 	 * Null safe, length safe function to return the left side of a string.
 	 * If less than length, returns full string.

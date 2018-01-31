@@ -40,9 +40,9 @@ public class DefaultDuplicateTracker <Item> implements DuplicateTracker <Item>{
 	public Map<String, List<Item>> getDuplicatesMap() {
 		return this.duplicateItemsMap;
 	}
-
+	
 	@Override
-	public boolean isDuplicate(String name) {
+	public boolean isDuplicate (String name) {
 		return this.itemMap.containsKey(name);
 	}
 
