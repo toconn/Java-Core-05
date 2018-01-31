@@ -1,5 +1,6 @@
 package ua.core.utils;
 
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomUtils {
@@ -26,4 +27,9 @@ public class RandomUtils {
 		return ThreadLocalRandom.current().nextInt (min, max + 1);
 		// return min + (int) (Math.random() * ((max - min) + 1));
 	}
+	
+	public static long randomLong (long max) {
+		return (long) (new Random().nextDouble() * (max + 1));
+	}
+
 }

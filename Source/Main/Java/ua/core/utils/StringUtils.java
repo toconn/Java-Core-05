@@ -971,11 +971,12 @@ public class StringUtils {
 	public static String toCase (List<String> words, Set<Case> caseSet) {
 		
 		StringBuilder caseBuilder = new StringBuilder();
-		IsFirst first = new IsFirst();
+		boolean isFirst = true;
 		
 		for (String word : words) {
 			
-			if (first.isNotFirst()) {
+			if (isFirst) {
+				
 				if (caseSet.contains(Case.SNAKE)) {
 					caseBuilder.append ("_");
 				}
@@ -985,7 +986,13 @@ public class StringUtils {
 			}
 			
 			if (caseSet.contains(Case.CAMEL)) {
-				caseBuilder.append (to1stLowerCase (word));
+				
+				if (isFirst) {
+					caseBuilder.append (to1stLowerCase (word));
+				}
+				else {
+					caseBuilder.append (toTitleCase (word));
+				}
 			}
 			else if (caseSet.contains(Case.LOWER)) {
 				caseBuilder.append (to1stLowerCase (word));
@@ -999,6 +1006,8 @@ public class StringUtils {
 			else {
 				caseBuilder.append (word);
 			}
+			
+			isFirst = false;
 		}
 		
 		return caseBuilder.toString();
