@@ -79,6 +79,11 @@ public class RunMetrics {
 		return COMMA_SEPARATED_DECIMAL_FORMAT.format (getMemoryUsed() / 1048576.0f) + " mb";
 	}
 
+	public String getFormattedOperationsCount() {
+
+		return COMMA_SEPARATED_INTEGER_FORMAT.format (getOperationsCount());
+	}
+
 	public String getFormattedOperationsPerSec() {
 
 		return COMMA_SEPARATED_DECIMAL_FORMAT.format (getOperationsPerSec());
@@ -150,6 +155,8 @@ public class RunMetrics {
 
 		this.timeEndMillisec = System.currentTimeMillis();
 		this.memoryUsedEnd = getMemoryInUse();
+		
+		this.status = StartStopStatus.STOPPED;
 	}
 	
 	private long getMemoryInUse() {
