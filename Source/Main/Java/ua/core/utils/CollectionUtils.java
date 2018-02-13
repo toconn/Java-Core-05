@@ -174,15 +174,7 @@ public class CollectionUtils {
 	 */
 	public static <T> List <T> asList (Map <?, T> map) {
 		
-		List <T> list;
-		
-		list = new ArrayList <T>();
-		
-		for (Object key : map.keySet()) {
-			list.add (map.get (key));
-		}
-		
-		return list;
+		return new ArrayList<T> (map.values());
 	}
 	
 	public static <T> Map<T,T> asMap (Collection <T> collection) {
@@ -190,7 +182,6 @@ public class CollectionUtils {
 		Map<T,T> map = new HashMap<>();
 		
 		for (T item : collection) {
-			
 			map.put (item, item);
 		}
 		
@@ -250,7 +241,7 @@ public class CollectionUtils {
 	}
 	
 	/**
-	 * Returns a sorted list for any collection.
+	 * Returns a sorted list from any collection.
 	 * 
 	 * @param collection
 	 * @return
@@ -270,7 +261,33 @@ public class CollectionUtils {
 		return list;
 	}
 	
+	
+	/**
+	 * Returns a sorted list from Map<String, T>.
+	 * 
+	 * @param collection
+	 * @return
+	 */
+	public static <T> List<T> asSortedList (Map<String, T> map) {
 
+		// DECLARATIONS:
+
+		List<T>	list;
+		List<String> keys;
+		
+		
+		// CODE:
+		
+		keys = asSortedList (map.keySet());
+		list = new ArrayList<T>();
+
+		for (String key : keys) {
+			list.add(map.get(key));
+		}
+		
+		return list;
+	}
+	
 	
 	public static <T> String concatenateToString (Collection <T> collection, String separator) {
 
